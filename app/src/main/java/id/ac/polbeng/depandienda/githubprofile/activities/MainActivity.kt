@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import id.ac.polbeng.depandienda.githubprofile.GlideApp
 import id.ac.polbeng.depandienda.githubprofile.R
 import id.ac.polbeng.depandienda.githubprofile.databinding.ActivityMainBinding
-import id.ac.polbeng.depandienda.githubprofile.models.GithubUser
+import id.ac.polbeng.depandienda.githubprofile.models.UserResponse
 import id.ac.polbeng.depandienda.githubprofile.viewmodels.MainViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -21,9 +21,9 @@ class MainActivity : AppCompatActivity() {
 
         val mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
-        mainViewModel.githubUser.observe(this) { githubUser ->
-            if (githubUser != null) {
-                setUserData(githubUser)
+        mainViewModel.githubUser.observe(this) { userResponse ->
+            if (userResponse != null) {
+                setUserData(userResponse)
             } else {
                 binding.tvUser.text = getString(R.string.user_not_found)
                 GlideApp.with(this)
@@ -44,10 +44,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setUserData(githubUser: GithubUser) {
-        binding.tvUser.text = githubUser.toString()
+    private fun setUserData(userResponse: UserResponse) {
+        binding.tvUser.text = userResponse.toString()
         GlideApp.with(this)
-            .load(githubUser.avatarUrl)
+            .load(userResponse.avatarUrl)
             .into(binding.imgUser)
     }
 
